@@ -18,7 +18,7 @@ class Solution {
                 left++;
             }
 
-            count += right - left + 1;
+            count += right - left + 1;    //It's a very common Sliding Window pattern for counting subarrays.
         }
 
         return count;
