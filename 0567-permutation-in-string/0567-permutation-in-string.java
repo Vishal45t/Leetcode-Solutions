@@ -1,21 +1,33 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        int[] freq1 = new int[26];
-        int[] freq2 = new int[26];
 
-        for (char ch : s1.toCharArray()) {
-            freq1[ch - 'a']++;
+        if(s1.length() > s2.length())
+            return false;
+
+        int[] st1 = new int[26];
+
+        for(char ch : s1.toCharArray()){
+            st1[ch - 'a']++;
         }
 
-        for (int i = 0; i < s2.length(); i++) {
+        for(int i = 0; i <= s2.length() - s1.length(); i++){
 
-            freq2[s2.charAt(i) - 'a']++;
+            int[] st2 = new int[26];
 
-            if (i >= s1.length()) {
-                freq2[s2.charAt(i - s1.length()) - 'a']--;
+            for(int k = i; k < i + s1.length(); k++){
+                st2[s2.charAt(k) - 'a']++;
             }
 
-            if (Arrays.equals(freq1, freq2)) {
+            boolean found = true;
+
+            for(int j = 0; j < 26; j++){
+                if(st1[j] != st2[j]){
+                    found = false;
+                    break;
+                }
+            }
+
+            if(found){
                 return true;
             }
         }
