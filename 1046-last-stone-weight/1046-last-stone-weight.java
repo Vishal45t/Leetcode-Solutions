@@ -3,19 +3,18 @@ class Solution {
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
 
         for(int x : stones){
-            pq.offer(x);
+            pq.add(x);
         }
 
         while(pq.size() > 1){
-            int first = pq.poll();
-            int second = pq.poll();
+            int n1 = pq.poll();
+            int n2 = pq.poll();
 
-            if(first != second){
-                int val = first-second;
-                pq.offer(val);
+            if(n1 != n2){
+                pq.add(n1-n2);
             }
-
         }
-        return pq.size() == 0 ? 0 : pq.poll();
+
+        return pq.size() == 0 ? 0 : pq.peek();
     }
 }
