@@ -1,28 +1,26 @@
 class Solution {
-    public static void print(int[] nums, List<Integer> curr, boolean[] visited, List<List<Integer>> ans){
-        if(curr.size() == nums.length){
-            ans.add(new ArrayList<>(curr));
+    public static void getper(List<List<Integer>> ans, int[] nums, boolean[] vis, List<Integer> cur){
+        if(cur.size() == nums.length){
+            ans.add(new ArrayList<>(cur));
             return;
         }
         for(int i = 0; i < nums.length; i++){
-            if(visited[i]){
+            if(vis[i]){
                 continue;
             }
-            curr.add(nums[i]);
-            visited[i] = true;
+            cur.add(nums[i]);
+            vis[i] = true;
+            getper(ans, nums, vis, cur);
 
-            print(nums, curr, visited, ans);
-            curr.remove(curr.size()-1);
-            visited[i] = false;
-
+            cur.remove(cur.size()-1);
+            vis[i] = false;
         }
     }
     public List<List<Integer>> permute(int[] nums) {
-        boolean[] visited = new boolean[nums.length];
-        List<Integer> curr = new ArrayList<>();
+        boolean[] vis = new boolean[nums.length];
         List<List<Integer>> ans = new ArrayList<>();
-        print(nums, curr, visited, ans);
-
+        List<Integer> cur = new ArrayList<>();
+        getper(ans, nums, vis, cur);
         return ans;
     }
 }
