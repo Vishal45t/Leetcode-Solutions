@@ -1,7 +1,7 @@
 class Solution {
     public List<Integer> findLonely(int[] nums) {
         Map<Integer, Integer> mp = new HashMap<>();
-        List<Integer> result = new ArrayList<>();
+        List<Integer> ans = new ArrayList<>();
 
         for(int x : nums){
             mp.put(x, mp.getOrDefault(x, 0)+1);
@@ -9,9 +9,9 @@ class Solution {
 
         for(int i = 0; i < nums.length; i++){
             if(mp.get(nums[i]) == 1 && !mp.containsKey(nums[i]-1) && !mp.containsKey(nums[i]+1)){
-                result.add(nums[i]);
+                ans.add(nums[i]);
             }
         }
-        return result;
+        return ans;
     }
 }
