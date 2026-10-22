@@ -29,13 +29,11 @@ class Solution {
                 }
             }
         }
-        for (int x : st) {
-            ls.add(x);
-        }
 
-        int[] res = new int[ls.size()];
-        for (int i = 0; i < ls.size(); i++) {
-            res[i] = ls.get(i);
+        int[] res = new int[st.size()];
+        int i = 0;
+        for (int x : st) {
+            res[i++] = x;
         }
         return res;
     }
