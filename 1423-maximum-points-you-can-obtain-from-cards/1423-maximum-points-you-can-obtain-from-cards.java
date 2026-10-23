@@ -1,21 +1,19 @@
 class Solution {
     public int maxScore(int[] cardPoints, int k) {
-        int maxPoints = 0;
-        int points = 0;
-        int left = k-1;
-        int n = cardPoints.length;
+        int sum = 0;
         for(int i = 0; i < k; i++){
-            points += cardPoints[i];
+            sum += cardPoints[i];
         }
-
-        maxPoints = Math.max(maxPoints, points);
-
-        for(int j = cardPoints.length-1; j >= n-k; j--){
-            points -= cardPoints[left--];
-            points += cardPoints[j];
-
-            maxPoints = Math.max(maxPoints, points);
+        int maxSum = sum;
+        int j = k-1;
+        int l = cardPoints.length-1;
+        int count = 0;
+        while(count < k){
+            sum -= cardPoints[j--];
+            sum += cardPoints[l--];
+            maxSum = Math.max(maxSum, sum);
+            count++;
         }
-        return maxPoints;
+        return maxSum;
     }
 }
