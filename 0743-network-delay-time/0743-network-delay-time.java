@@ -3,53 +3,60 @@ import java.util.*;
 class Solution {
     public int networkDelayTime(int[][] times, int n, int k) {
 
-        List<List<int[]>> graph = new ArrayList<>();
-
-        for (int i = 0; i <= n; i++) {
-            graph.add(new ArrayList<>());
+        // Create adjacency matrix
+        int[][] adj = new int[n + 1][n + 1];
+        for (int[] row : adj) {
+            Arrays.fill(row, -1);
         }
 
         for (int[] edge : times) {
-            graph.get(edge[0]).add(new int[] { edge[1], edge[2] });
+            int source = edge[0];
+            int destination = edge[1];
+            int weight = edge[2];
+
+            adj[source][destination] = weight;
         }
+
+        // PriorityQueue: {distance, node}
+        PriorityQueue<int[]> pq = new PriorityQueue<>(
+                (a, b) -> a[0] - b[0]);
 
         int[] distance = new int[n + 1];
         Arrays.fill(distance, Integer.MAX_VALUE);
 
-        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
-
         distance[k] = 0;
-        priorityQueue.add(new int[] { k, 0 });
+        pq.add(new int[] { 0, k });
 
-        while (!priorityQueue.isEmpty()) {
+        // Dijkstra's Algorithm
+        while (!pq.isEmpty()) {
 
-            int[] current = priorityQueue.poll();
+            int[] m = pq.poll();
 
-            int destination = current[0];
-            int currentDistance = current[1];
+            int weight = m[0];
+            int src = m[1];
 
-            if (currentDistance > distance[destination]) {
+            if (weight > distance[src]) {
                 continue;
             }
 
-            for (int[] edge : graph.get(destination)) {
+            for (int i = 1; i <= n; i++) {
 
-                int nextDestination = edge[0];
-                int weight = edge[1];
+                if (adj[src][i] != -1) {
 
-                int newDistance = distance[destination] + weight;
+                    int newDistance = distance[src] + adj[src][i];
 
-                if (newDistance < distance[nextDestination]) {
+                    if (newDistance < distance[i]) {
 
-                    distance[nextDestination] = newDistance;
+                        distance[i] = newDistance;
 
-                    priorityQueue.add(
-                            new int[] { nextDestination, newDistance });
+                        pq.add(new int[] { newDistance, i });
+                    }
                 }
             }
         }
 
-        int maxDistance = 0;
+        // Find maximum distance
+        int max = 0;
 
         for (int i = 1; i <= n; i++) {
 
@@ -57,10 +64,9 @@ class Solution {
                 return -1;
             }
 
-            maxDistance = Math.max(maxDistance, distance[i]);
+            max = Math.max(max, distance[i]);
         }
 
-        return maxDistance;
+        return max;
     }
-
 }
